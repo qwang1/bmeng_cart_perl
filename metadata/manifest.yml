@@ -7,7 +7,7 @@ License: "GPL v2"
 License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: redhat
+Cartridge-Vendor: bmeng
 Categories:
   - service
   - perl
@@ -84,3 +84,5 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       { websocket: true }
+
+Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
