@@ -1,8 +1,8 @@
 Name: perl
 Cartridge-Short-Name: PERL
-Display-Name: Perl 5.10
-Description:  "Perl is a high-level, general-purpose, interpreted, dynamic programming language. Dynamic content produced by Perl scripts can be served in response to incoming web requests."
-Version: '5.10'
+Display-Name: Perl 5.16
+Description: "Perl is a high-level, general-purpose, interpreted, dynamic programming language. Dynamic content produced by Perl scripts can be served in response to incoming web requests."
+Version: '5.16'
 License: "GPL v2"
 License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
@@ -44,9 +44,9 @@ Cart-Data:
     Type: environment
     Description: "Unique ID which identified the gear. This value changes between gears."
 Provides:
-  - perl-5.10
+  - perl-5.16
   - "perl"
-  - "perl(version) = 5.10"
+  - "perl(version) = 5.16"
 Publishes:
   publish-http-url:
     Type: "NET_TCP:httpd-proxy-info"
@@ -80,5 +80,3 @@ Endpoints:
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
-
-Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
