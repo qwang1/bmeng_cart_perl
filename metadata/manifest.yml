@@ -73,10 +73,12 @@ Endpoints:
     Private-Port-Name: PORT
     Private-Port:      8080
     Public-Port-Name:  PROXY_PORT
+    Options:       { ssl_to_gear: true}
     Mappings:
       - Frontend:      ""
         Backend:       ""
         Options:       { websocket: true }
+                       { ssl_to_gear: true} 
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
@@ -85,6 +87,11 @@ Endpoints:
     Private-Port-Name: SSL_PORT
     Private-Port:      8443
     Public-Port-Name:  SSL_PROXY_PORT
-    Options: {"ssl_to_gear": true}
+    Options:       { ssl_to_gear: true}    
+    Mappings:
+      - Frontend:      ""
+        Backend:       ""
+        Options:       { ssl_to_gear: true}
+
 Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
 #Source-Url: file:///root/bmeng_cart_perl
