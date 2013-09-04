@@ -81,10 +81,5 @@ Endpoints:
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
-  - Private-IP-Name:   SSL_IP
-    Private-Port-Name: SSL_PORT
-    Private-Port:      15535
-    Public-Port-Name:  SSL_PROXY_PORT
-    Options:       { "ssl_to_gear": true}    
 Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
 #Source-Url: file:///root/bmeng_cart_perl
