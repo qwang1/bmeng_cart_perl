@@ -78,8 +78,10 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       { websocket: true }
+        ssl_to_gear:   ture
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
+        
 Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
 #Source-Url: file:///root/bmeng_cart_perl
