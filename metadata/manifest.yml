@@ -74,13 +74,11 @@ Endpoints:
     Private-Port:      8080
     Public-Port-Name:  PROXY_PORT
     Option: 
-        ssl_to_gear: true    
     Mappings:
       - Frontend:      ""
         Backend:       ""
         Options:        
             websocket: true 
-            ssl_to_gear: true
       - Frontend:      "/health"
         Backend:       ""
         Options:       { health: true }
