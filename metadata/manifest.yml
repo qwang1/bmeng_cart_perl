@@ -84,3 +84,4 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       { websocket: true }
+Source-Url: https://github.com/bmeng/bmeng_cart_perl.git
