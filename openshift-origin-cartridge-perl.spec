@@ -1,21 +1,22 @@
-%global cartridgedir %{_libexecdir}/openshift/cartridges/perl
+%global cartridgedir %{_libexecdir}/openshift/cartridges/v2/perl
+%global frameworkdir %{_libexecdir}/openshift/cartridges/v2/perl
 
-Name:          openshift-origin-cartridge-perl
-Version: 0.7.3
-Release:       1%{?dist}
-Summary:       Perl cartridge
-Group:         Development/Languages
-License:       ASL 2.0
-URL:           https://www.openshift.com
-Source0:       http://mirror.openshift.com/pub/openshift-origin/source/%{name}/%{name}-%{version}.tar.gz
+Name: openshift-origin-cartridge-perl
+Version: 0.2.2
+Release: 1%{?dist}
+Summary: Perl cartridge
+Group: Development/Languages
+License: ASL 2.0
+URL: https://openshift.redhat.com
+Source0: http://mirror.openshift.com/pub/origin-server/source/%{name}/%{name}-%{version}.tar.gz
+Requires:      openshift-origin-cartridge-abstract
 Requires:      rubygem(openshift-origin-node)
-Requires:      openshift-origin-node-util
 Requires:      mod_perl
+Requires:      mod_bw
 Requires:      perl-DBD-SQLite
 Requires:      perl-DBD-MySQL
 Requires:      perl-MongoDB
 Requires:      ImageMagick-perl
-Requires:      gd-devel
 Requires:      perl-App-cpanminus
 Requires:      perl-CPAN
 Requires:      perl-CPANPLUS
@@ -23,205 +24,49 @@ Requires:      rpm-build
 Requires:      expat-devel
 Requires:      perl-IO-Socket-SSL
 Requires:      gdbm-devel
-
-%if 0%{?fedora}%{?rhel} <= 6
 Requires:      httpd < 2.4
-%endif
-%if 0%{?fedora} >= 19
-Requires:      httpd > 2.3
-Requires:      httpd < 2.5
-%endif
-
-Obsoletes: openshift-origin-cartridge-perl-5.10
-
+BuildRequires: git
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildArch: noarch
 
 %description
-Perl cartridge for OpenShift. (Cartridge Format V2)
+Perl cartridge for openshift.
+
 
 %prep
 %setup -q
 
 %build
-%__rm %{name}.spec
-
 
 %install
-%__mkdir -p %{buildroot}%{cartridgedir}
-%__cp -r * %{buildroot}%{cartridgedir}
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{cartridgedir}
+mkdir -p %{buildroot}/%{_sysconfdir}/openshift/cartridges
+cp -r * %{buildroot}%{cartridgedir}/
 
-%if 0%{?fedora}%{?rhel} <= 6
-rm -rf %{buildroot}%{cartridgedir}/versions/5.16
-mv %{buildroot}%{cartridgedir}/metadata/manifest.yml.rhel %{buildroot}%{cartridgedir}/metadata/manifest.yml
-%endif
-%if 0%{?fedora} == 19
-rm -rf %{buildroot}%{cartridgedir}/versions/5.10
-mv %{buildroot}%{cartridgedir}/metadata/manifest.yml.f19 %{buildroot}%{cartridgedir}/metadata/manifest.yml
-%endif
-rm %{buildroot}%{cartridgedir}/metadata/manifest.yml.*
 
-%posttrans
-%{_sbindir}/oo-admin-cartridge --action install --source %{cartridgedir}
+%clean
+rm -rf %{buildroot}
+
 
 %files
+%defattr(-,root,root,-)
 %dir %{cartridgedir}
+%dir %{cartridgedir}/bin
+%dir %{cartridgedir}/hooks
+%dir %{cartridgedir}/env
+%dir %{cartridgedir}/metadata
+%dir %{cartridgedir}/versions
 %attr(0755,-,-) %{cartridgedir}/bin/
 %attr(0755,-,-) %{cartridgedir}/hooks/
-%{cartridgedir}
+%attr(0755,-,-) %{frameworkdir}
+%{cartridgedir}/metadata/manifest.yml
 %doc %{cartridgedir}/README.md
 %doc %{cartridgedir}/COPYRIGHT
 %doc %{cartridgedir}/LICENSE
 
 
 %changelog
-* Mon Jul 29 2013 Adam Miller <admiller@redhat.com> 0.7.3-1
-- Bug 982738 (dmcphers@redhat.com)
-
-* Wed Jul 24 2013 Adam Miller <admiller@redhat.com> 0.7.2-1
-- <application.rb> Add feature to carts to handle wildcard ENV variable
-  subscriptions (jolamb@redhat.com)
-- Allow plugin carts to reside either on web-framework or non web-framework
-  carts. HA-proxy cart manifest will say it will reside with web-framework
-  (earlier it was done in the reverse order). (rpenta@redhat.com)
-- <perl cart> bug 977914 remove broken symlinks (lmeyer@redhat.com)
-
-* Fri Jul 12 2013 Adam Miller <admiller@redhat.com> 0.7.1-1
-- bump_minor_versions for sprint 31 (admiller@redhat.com)
-
-* Tue Jul 02 2013 Adam Miller <admiller@redhat.com> 0.6.2-1
-- Bug 976921: Move cart installation to %%posttrans (ironcladlou@gmail.com)
-- Merge pull request #2958 from danmcp/master
-  (dmcphers+openshiftbot@redhat.com)
-- remove v2 folder from cart install (dmcphers@redhat.com)
-- Bug 977950 - Copying the v1 descriptions back into the v2 versions of the
-  cartridge. (rmillner@redhat.com)
-
-* Tue Jun 25 2013 Adam Miller <admiller@redhat.com> 0.6.1-1
-- bump_minor_versions for sprint 30 (admiller@redhat.com)
-
-* Thu Jun 20 2013 Adam Miller <admiller@redhat.com> 0.5.4-1
-- Bug 975700 - check the httpd pid file for corruption and attempt to fix it.
-  (rmillner@redhat.com)
-
-* Wed Jun 19 2013 Adam Miller <admiller@redhat.com> 0.5.3-1
-- Bug 974534 - Add support for CPANMINUS_HOME (jhonce@redhat.com)
-- Bug 974534 - Add support for CPANMINUS_HOME (jhonce@redhat.com)
-
-* Mon Jun 17 2013 Adam Miller <admiller@redhat.com> 0.5.2-1
-- First pass at removing v1 cartridges (dmcphers@redhat.com)
-- Add version check around DefaultRuntimeDir directive as it is available only
-  on apache 2.4+ (kraman@gmail.com)
-- Update perl package for F19 versions. (kraman@gmail.com)
-- Fix stop for httpd-based carts. (mrunalp@gmail.com)
-- Make Install-Build-Required default to false (ironcladlou@gmail.com)
-
-* Thu May 30 2013 Adam Miller <admiller@redhat.com> 0.5.1-1
-- bump_minor_versions for sprint 29 (admiller@redhat.com)
-
-* Thu May 30 2013 Adam Miller <admiller@redhat.com> 0.4.6-1
-- Bug 968340 - Update MIMEMagicFile in conf files (jhonce@redhat.com)
-
-* Thu May 23 2013 Adam Miller <admiller@redhat.com> 0.4.5-1
-- Bug 966255: Remove OPENSHIFT_INTERNAL_* references from v2 carts
-  (ironcladlou@gmail.com)
-
-* Wed May 22 2013 Adam Miller <admiller@redhat.com> 0.4.4-1
-- Bug 962662 (dmcphers@redhat.com)
-- Bug 965537 - Dynamically build PassEnv httpd configuration
-  (jhonce@redhat.com)
-- Fix bug 964348 (pmorie@gmail.com)
-
-* Mon May 20 2013 Dan McPherson <dmcphers@redhat.com> 0.4.3-1
-- spec file cleanup (tdawson@redhat.com)
-
-* Thu May 16 2013 Adam Miller <admiller@redhat.com> 0.4.2-1
-- locking fixes and adjustments (dmcphers@redhat.com)
-- Merge pull request #2454 from fotioslindiakos/locked_files
-  (dmcphers+openshiftbot@redhat.com)
-- Add erb processing to managed_files.yml Also fixed and added some test cases
-  (fotios@redhat.com)
-- Bug 960880 - PassEnv required for mod_perl (jhonce@redhat.com)
-- Card online_runtime_297 - Allow cartridges to use more resources
-  (jhonce@redhat.com)
-- WIP Cartridge Refactor -- Cleanup spec files (jhonce@redhat.com)
-- Card online_runtime_297 - Allow cartridges to use more resources
-  (jhonce@redhat.com)
-
-* Wed May 08 2013 Adam Miller <admiller@redhat.com> 0.4.1-1
-- bump_minor_versions for sprint 28 (admiller@redhat.com)
-
-* Tue May 07 2013 Adam Miller <admiller@redhat.com> 0.3.5-1
-- fix missing target for cp (rchopra@redhat.com)
-
-* Fri May 03 2013 Adam Miller <admiller@redhat.com> 0.3.4-1
-- fix tests (dmcphers@redhat.com)
-- Special file processing (fotios@redhat.com)
-
-* Tue Apr 30 2013 Adam Miller <admiller@redhat.com> 0.3.3-1
-- Env var WIP. (mrunalp@gmail.com)
-- Merge pull request #2201 from BanzaiMan/dev/hasari/c276
-  (dmcphers+openshiftbot@redhat.com)
-- Card 276 (asari.ruby@gmail.com)
-
-* Mon Apr 29 2013 Adam Miller <admiller@redhat.com> 0.3.2-1
-- Merge pull request #2261 from jwhonce/wip/card287
-  (dmcphers+openshiftbot@redhat.com)
-- Card online_runtime_287 - Bug fix (jhonce@redhat.com)
-- Add health urls to each v2 cartridge. (rmillner@redhat.com)
-
-* Thu Apr 25 2013 Adam Miller <admiller@redhat.com> 0.3.1-1
-- WIP Cartridge Refactor - cleanup in cartridges (jhonce@redhat.com)
-- fixing tests (dmcphers@redhat.com)
-- Split v2 configure into configure/post-configure (ironcladlou@gmail.com)
-- more install/post-install scripts (dmcphers@redhat.com)
-- Merge pull request #2187 from danmcp/master
-  (dmcphers+openshiftbot@redhat.com)
-- install and post setup tests (dmcphers@redhat.com)
-- Implement hot deployment for V2 cartridges (ironcladlou@gmail.com)
-- Update outdated links in 'cartridges' directory. (asari.ruby@gmail.com)
-- WIP Cartridge Refactor - Change environment variable files to contain just
-  value (jhonce@redhat.com)
-- Adding V2 Format to all v2 cartridges (calfonso@redhat.com)
-- Bug 928675 (asari.ruby@gmail.com)
-- <v2 carts> remove abstract cartridge from v2 requires (lmeyer@redhat.com)
-- V2 documentation refactoring (ironcladlou@gmail.com)
-- V2 cartridge documentation updates (ironcladlou@gmail.com)
-- bump_minor_versions for sprint 2.0.26 (tdawson@redhat.com)
-
-* Tue Apr 16 2013 Troy Dawson <tdawson@redhat.com> 0.2.9-1
-- Bug 947356 - Add Requires gd-devel (jhonce@redhat.com)
-- Setting mongodb connection hooks to use the generic nosqldb name
-  (calfonso@redhat.com)
-
-* Mon Apr 15 2013 Adam Miller <admiller@redhat.com> 0.2.8-1
-- Bug 952041 - Add support for tidy to DIY and PHP cartridges
-  (jhonce@redhat.com)
-- V2 action hook cleanup (ironcladlou@gmail.com)
-
-* Sun Apr 14 2013 Krishna Raman <kraman@gmail.com> 0.2.7-1
-- WIP Cartridge Refactor - Move PATH to /etc/openshift/env (jhonce@redhat.com)
-- Adding connection hook for mongodb There are three leading params we don't
-  care about, so the hooks are using shift to discard. (calfonso@redhat.com)
-
-* Fri Apr 12 2013 Adam Miller <admiller@redhat.com> 0.2.6-1
-- SELinux, ApplicationContainer and UnixUser model changes to support oo-admin-
-  ctl-gears operating on v1 and v2 cartridges. (rmillner@redhat.com)
-
-* Thu Apr 11 2013 Adam Miller <admiller@redhat.com> 0.2.5-1
-- Calling oo-admin-cartridge from a few more v2 cartridges
-  (bleanhar@redhat.com)
-
-* Wed Apr 10 2013 Adam Miller <admiller@redhat.com> 0.2.4-1
-- Anchor locked_files.txt entries at the cart directory (ironcladlou@gmail.com)
-
-* Tue Apr 09 2013 Adam Miller <admiller@redhat.com> 0.2.3-1
-- Merge pull request #1962 from danmcp/master (dmcphers@redhat.com)
-- jenkins WIP (dmcphers@redhat.com)
-- Rename cideploy to geardeploy. (mrunalp@gmail.com)
-- Merge pull request #1942 from ironcladlou/dev/v2carts/vendor-changes
-  (dmcphers+openshiftbot@redhat.com)
-- Remove vendor name from installed V2 cartridge path (ironcladlou@gmail.com)
-
 * Mon Apr 08 2013 Adam Miller <admiller@redhat.com> 0.2.2-1
 - Merge pull request #1930 from mrunalp/dev/cart_hooks (dmcphers@redhat.com)
 - Add hooks for other carts. (mrunalp@gmail.com)

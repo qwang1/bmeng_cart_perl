@@ -1,20 +1,20 @@
 Name: perl
 Cartridge-Short-Name: PERL
 Display-Name: Perl 5.10
-Description:  "Perl is a high-level, general-purpose, interpreted, dynamic programming language. Dynamic content produced by Perl scripts can be served in response to incoming web requests."
+Description: "Perl is a general-purpose server-side scripting language originally designed for Web development to produce dynamic Web pages. Popular development frameworks include: CakePerl, Zend, Symfony, and Code Igniter."
 Version: '5.10'
 License: "GPL v2"
 License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
-Cartridge-Version: 0.0.2
-Cartridge-Vendor: bmeng
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: redhat
 Categories:
   - service
   - perl
   - web_framework
 Website: http://www.perl.org
 Help-Topics:
-  "Developer Center": https://www.openshift.com/developers
+  "Developer Center": https://openshift.redhat.com/community/developers
 Cart-Data:
   - Key: OPENSHIFT_TMP_DIR
     Type: environment
@@ -22,10 +22,10 @@ Cart-Data:
   - Key: OPENSHIFT_REPO_DIR
     Type: environment
     Description: "Application root directory where application files reside. This directory is reset every time you do a git-push"
-  - Key: OPENSHIFT_PERL_PORT
+  - Key: OPENSHIFT_INTERNAL_PORT
     Type: environment
     Description: "Internal port to which the web-framework binds to."
-  - Key: OPENSHIFT_PERL_IP
+  - Key: OPENSHIFT_INTERNAL_IP
     Type: environment
     Description: "Internal IP to which the web-framework binds to."
   - Key: OPENSHIFT_APP_DNS
@@ -53,8 +53,11 @@ Publishes:
   publish-gear-endpoint:
     Type: "NET_TCP:gear-endpoint-info"
 Subscribes:
-  set-env:
-    Type: "ENV:*"
+  set-db-connection-info:
+    Type: "NET_TCP:db:connection-info"
+    Required: false
+  set-nosql-db-connection-info:
+    Type: "NET_TCP:nosqldb:connection-info"
     Required: false
   set-mysql-connection-info:
     Type: "NET_TCP:db:mysql"
@@ -68,20 +71,16 @@ Subscribes:
 Scaling:
   Min: 1
   Max: -1
+Group-Overrides:
+  - components:
+    - perl-5.10
+    - web_proxy
 Endpoints:
   - Private-IP-Name:   IP
     Private-Port-Name: PORT
     Private-Port:      8080
     Public-Port-Name:  PROXY_PORT
-    Option: 
     Mappings:
       - Frontend:      ""
         Backend:       ""
-        Options:        
-            websocket: true 
-      - Frontend:      "/health"
-        Backend:       ""
-        Options:       { health: true }
-        
-Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
-#Source-Url: file:///root/bmeng_cart_perl
+        Options:       { websocket: true }
