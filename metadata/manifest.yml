@@ -11,7 +11,7 @@ License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
 Cartridge-Version: 0.0.5
 Compatible-Versions: []
-Cartridge-Vendor: b-men__g
+Cartridge-Vendor: redhat
 Categories:
 - service
 - perl
