@@ -11,7 +11,7 @@ License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
 Cartridge-Version: 0.0.5
 Compatible-Versions: []
-Cartridge-Vendor: bmeng
+Cartridge-Vendor: bmen__g
 Categories:
 - service
 - perl
@@ -81,5 +81,4 @@ Endpoints:
     Backend: ''
     Options:
       health: true
-Source-Url: file:///root/perl
-#Source-Url: http://github.com/bmeng/bmeng_cart_perl.git
+Source-Url: http://github.com/bmeng/bmeng_cart_perl.git
