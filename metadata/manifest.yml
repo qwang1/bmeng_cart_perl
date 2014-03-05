@@ -82,3 +82,4 @@ Endpoints:
     Options:
       health: true
 Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
+Source-Url: http://github.com/bmeng/bmeng_cart_perl/mis_template.zip
