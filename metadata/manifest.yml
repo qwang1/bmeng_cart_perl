@@ -69,7 +69,7 @@ Endpoints:
   Private-Port-Name: PORT
   Private-Port: 8080
   Public-Port-Name: PROXY_PORT
-  Protocols: [http, ws, tls]
+  Protocols: [http, ws]
   Options:
     primary: true
   Mappings:
@@ -81,5 +81,13 @@ Endpoints:
     Backend: ''
     Options:
       health: true
+- Private-IP-Name: TLS_IP
+  Private-Port-Name: TLS_PORT
+  Private-Port: 35535
+  Public-Port-Name: TLS_PROXY_PORT
+  Protocols: [tls]
+  Mappings:
+  - Frontend: 'TLS_PORT_1'
+    Backend: ''
 Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
 #Source-Url: http://github.com/bmeng/bmeng_cart_perl/mis_template.zip
