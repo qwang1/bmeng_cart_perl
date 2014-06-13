@@ -51,7 +51,7 @@ Endpoints:
     Backend: ''
     Options:
       websocket: true
-  - Frontend: /health
+  - Frontend: "/health"
     Backend: ''
     Options:
       health: true
