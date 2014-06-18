@@ -1,4 +1,3 @@
----
 Name: perl
 Cartridge-Short-Name: PERL
 Display-Name: Perl 5.10
@@ -9,17 +8,17 @@ Version: '5.10'
 License: GPL v2
 License-Url: http://dev.perl.org/licenses/
 Vendor: perl.org
-Cartridge-Version: 0.0.16
+Cartridge-Version: 0.0.17
 Compatible-Versions:
 - 0.0.14
 - 0.0.15
-Cartridge-Vendor: bmeng
+- 0.0.16
+Cartridge-Vendor: redhat
 Categories:
 - service
 - perl
 - web_framework
 Website: http://www.perl.org
-Source-Url: file:///usr/libexec/openshift/cartridges/perl
 Help-Topics:
   Developer Center: https://www.openshift.com/developers
 Provides:
@@ -55,4 +54,4 @@ Endpoints:
     Backend: ''
     Options:
       health: true
-
+Source-Url: file:///usr/libexec/openshift/cartridges/perl/
