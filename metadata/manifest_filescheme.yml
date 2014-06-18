@@ -54,4 +54,4 @@ Endpoints:
     Backend: ''
     Options:
       health: true
-Source-Url: file:///root/bmeng_cart_perl/
+Source-Url: file:///usr/libexec/openshift/cartridges/perl
