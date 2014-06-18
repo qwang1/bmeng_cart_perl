@@ -62,7 +62,7 @@ Subscribes:
     Type: STRING:urlpath
     Required: false
 Scaling:
-  Min: 1
+  Min: 2
   Max: -1
 Endpoints:
 - Private-IP-Name: IP
@@ -89,5 +89,5 @@ Endpoints:
   Mappings:
   - Frontend: ''
     Backend: ''
-#Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
-Source-Url: https://github.com/bmeng/bmeng_cart_perl/mis_template.zip
+Source-Url: git://github.com/bmeng/bmeng_cart_perl.git
+#Source-Url: https://github.com/bmeng/bmeng_cart_perl/mis_template.zip
