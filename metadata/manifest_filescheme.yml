@@ -19,7 +19,7 @@ Categories:
 - perl
 - web_framework
 Website: http://www.perl.org
-Source-Url: file:///usr/libexex/openshift/cartridges/perl
+Source-Url: file:///usr/libexec/openshift/cartridges/perl
 Help-Topics:
   Developer Center: https://www.openshift.com/developers
 Provides:
